@@ -1,5 +1,6 @@
 import React from "react";
 import ReactTableMaker from "test-module";
+// import ReactTableMaker from "react-table-maker";
 
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
 
     return (
         <div className="App">
-            <ReactTableMaker columns={columns} data={[{foo: "foo", bar: "bar"},{foo: "foo2", bar: "bar2"}]}/>
+            <ReactTableMaker tableClass={"table"}  columns={columns} data={[{foo: "foo", bar: "bar"},{foo: "foo2", bar: "bar2"}]}/>
         </div>
     );
 }

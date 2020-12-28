@@ -2,4 +2,8 @@
 
 Current development issue https://github.com/facebook/react/issues/13991
 
-Will have to test if having the react bits in the dev deps will download them when pulling from npm
+To Test in development you have to add in react and react-dom as depends
+
+To Run the app when included as a @file you need to remove these
+
+Look at importing the types and exporting them from index to get auto complete to work?
