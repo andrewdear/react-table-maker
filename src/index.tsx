@@ -1,18 +1,6 @@
-/**
- * @function ExampleComponent
- * @param {string} text
- */
+import ReactTableMaker from "./reactTableMaker";
+import useGeneralDataAdapter from "./dataAdapterHooks/useGeneralDataAdapter";
 
-import React from "react";
+export {useGeneralDataAdapter};
 
-export type Props = { text: string };
-
-function TestModule (props: Props) {
-
-    const { text } = props;
-
-    return <div style={{ color: "red" }} id={"textElement"} role={"mainContent"}>Hello {text}</div>;
-
-}
-
-export default TestModule;
+export default ReactTableMaker;

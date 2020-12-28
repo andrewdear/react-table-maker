@@ -1,11 +1,5 @@
-### This is a starting place for creating a react npm module
+#Work in progress
 
-Simply create your module with this then build using
+Current development issue https://github.com/facebook/react/issues/13991
 
-`npm build`
-
-You will need to update the package.json with your project name and description.
-
-After this you can push your code to npm
-
-`npm publish`
+Will have to test if having the react bits in the dev deps will download them when pulling from npm

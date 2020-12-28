@@ -31,12 +31,18 @@ export default {
         }),
         commonjs({
             include: ["node_modules/**"],
+            exclude: ["node_modules/react", "node_modules/react-dom"],
             namedExports: {
                 "node_modules/react/react.js": [
                     "Children",
                     "Component",
                     "PropTypes",
                     "createElement"
+                ],
+                "node_modules/react/index.js": [
+                    "useState",
+                    "useCallback",
+                    "useEffect"
                 ],
                 "node_modules/react-dom/index.js": ["render"]
             }
