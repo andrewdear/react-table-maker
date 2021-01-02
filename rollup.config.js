@@ -42,7 +42,8 @@ export default {
                 "node_modules/react/index.js": [
                     "useState",
                     "useCallback",
-                    "useEffect"
+                    "useEffect",
+                    "useMemo"
                 ],
                 "node_modules/react-dom/index.js": ["render"]
             }

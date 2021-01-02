@@ -22,7 +22,8 @@
   "files": [
     "build/**"
   ],
-  "author": "",
+  "author": "Andrew Dear",
+  "repository": "https://github.com/andrewdear/react-table-maker",
   "license": "ISC",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",

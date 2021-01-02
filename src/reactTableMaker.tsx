@@ -3,17 +3,22 @@
  * @param {string} text
  */
 
-import React, {FunctionComponent, useCallback, useEffect} from "react";
+import React, {FunctionComponent, useMemo, useEffect, useState} from "react";
 import useGeneralDataAdapter from "./dataAdapterHooks/useGeneralDataAdapter";
 import DataAdapter from "./dataAdapterHooks/dataAdapterInterface";
 import Thead from "./defaultComponents/tableHead/thead";
+import Tbody from "./defaultComponents/tableBody/tbody";
 
 export interface Column {
     key: string,
     label: string,
     className?: (() => string) | string,
-    render?(): FunctionComponent,
-    width: string
+    columnClass?:  string,
+    // render expects data, which will be the current data for that key and row which will be an object of the whole row
+    render?(data: any, row: any): FunctionComponent,
+    width: string,
+    sortingFunction?(a: any, b: any): number
+    // ((a: any, b: any) => number) | undefined
 }
 
 export type Props = {
@@ -21,25 +26,35 @@ export type Props = {
     dataAdapter?(): DataAdapter<any>,
     columns: Column[],
     tableClass?: string,
+    stepSize?:number,
+
 };
 
 function ReactTableMaker (props: Props) {
     const adapter = props.dataAdapter ? props.dataAdapter : useGeneralDataAdapter;
+    // create paginators that will take in the setCurrentPageSize and update it with whatever the paginator needs
+    const [currentPageSize, setCurrentPageSize] = useState(0);
 
-    const {getRows, setRawData} = adapter(props.data);
+    const {dataRows, setRawData, getCount, setSortingFunction, setStartIndex, setStopIndex} = adapter(props.data);
 
     useEffect(() => {
         setRawData(props.data);
+
+        if(!props.stepSize) {
+            setStopIndex(props.data.length);
+        }
+
     }, [props.data]);
 
     const tableClass = props.tableClass || "";
 
-    //TODO: removed width 100% this may effect the sticky header, check
+    //TODO: may need to add width 100% when adding the sticky header, check
     return <div className={"reactTableMaker"}>
         <table className={tableClass}>
             {/*<colgroup></colgroup>*/}
             {/*<thead id="mainThead" style="table-layout: fixed;"></thead>*/}
-            <Thead columns={props.columns}/>
+            <Thead columns={props.columns} setSortingFunction={setSortingFunction}/>
+            <Tbody columns={props.columns} rows={dataRows}/>
             {/*<tbody></tbody>*/}
         </table>
         {/*TODO addin stick header*/}
