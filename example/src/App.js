@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import ReactTableMaker from "test-module";
-// import ReactTableMaker from "react-table-maker";
+// import ReactTableMaker from "test-module";
+import ReactTableMaker from "react-table-maker";
 
 function App() {
 
