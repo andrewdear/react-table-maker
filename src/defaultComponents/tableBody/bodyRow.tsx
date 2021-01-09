@@ -11,8 +11,15 @@ function BodyRow(props: Props) {
     const {columns, row} = props;
 
     const tds = columns.map((column, index) => {
+
+        let className = "";
+
+        if(column.className && typeof column.className === "string") className = column.className;
+        if(column.className && typeof column.className === "function") className = column.className(row[column.key], row);
+
         const value = column.render ? column.render(row[column.key], row) : row[column.key];
-        return <td key={`${column.key}index`}>{value}</td>;
+
+        return <td key={`${column.key}index`} className={className}>{value}</td>;
     })
 
     return <tr>{tds}</tr>;

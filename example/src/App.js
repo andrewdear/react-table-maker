@@ -13,7 +13,6 @@ function App() {
     }, [])
 
     function sortByString(property, direction) {
-        "use strict";
         const propertyType = typeof property;
         const dir = (direction === "DESC") ? -1 : 1;
         // if property is a function it will use that to map through data.
@@ -28,22 +27,41 @@ function App() {
         };
     }
 
+    const sortableIcons = {
+        sortable: <i className="fas fa-sort float-right" />,
+        sorted: <i className="fas fa-sort-down float-right" />,
+        reversed: <i className="fas fa-sort-up float-right" />
+    }
+
     const columns = [
         {
             label:"Foo",
             key: "foo",
-            columnClass: "testClass",
+            columnClass: "cursorPointer",
             sortingFunction: sortByString("foo")
         },{
             label:"Bar",
             key:"bar",
-            sortingFunction: sortByString("bar")
-        },
+            columnClass: "cursorPointer",
+            sortingFunction: sortByString("bar"),
+            render(data) {
+                return <em>{data}</em>
+            }
+        },{
+            label: "Foo Bar",
+            key: "fooBar",
+            render(data, row) {
+                return <div>
+                    <span>{row.foo}</span>
+                    <span> {row.bar}</span>
+                </div>
+            }
+        }
     ]
 
     return (
         <div className="App">
-            <ReactTableMaker tableClass={"table table-striped table-hover"}  columns={columns} data={data}/>
+            <ReactTableMaker tableClass={"table table-striped table-hover"} sortableIcons={sortableIcons}  columns={columns} data={data}/>
         </div>
     );
 }

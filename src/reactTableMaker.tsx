@@ -12,13 +12,20 @@ import Tbody from "./defaultComponents/tableBody/tbody";
 export interface Column {
     key: string,
     label: string,
-    className?: (() => string) | string,
+    className?: ((data: any, row: any) => string) | string,
     columnClass?:  string,
     // render expects data, which will be the current data for that key and row which will be an object of the whole row
     render?(data: any, row: any): FunctionComponent,
     width: string,
-    sortingFunction?(a: any, b: any): number
+    sortingFunction?:(a: any, b: any) => number
     // ((a: any, b: any) => number) | undefined
+}
+
+export interface SortableIcons {
+    sortable: JSX.Element,
+    sorted: JSX.Element,
+    reversed: JSX.Element,
+    beforeTitle?: boolean
 }
 
 export type Props = {
@@ -27,7 +34,7 @@ export type Props = {
     columns: Column[],
     tableClass?: string,
     stepSize?:number,
-
+    sortableIcons?: SortableIcons
 };
 
 function ReactTableMaker (props: Props) {
@@ -53,7 +60,11 @@ function ReactTableMaker (props: Props) {
         <table className={tableClass}>
             {/*<colgroup></colgroup>*/}
             {/*<thead id="mainThead" style="table-layout: fixed;"></thead>*/}
-            <Thead columns={props.columns} setSortingFunction={setSortingFunction}/>
+            <Thead
+                columns={props.columns}
+                setSortingFunction={setSortingFunction}
+                sortableIcons={props.sortableIcons}
+            />
             <Tbody columns={props.columns} rows={dataRows}/>
             {/*<tbody></tbody>*/}
         </table>

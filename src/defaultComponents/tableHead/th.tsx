@@ -1,26 +1,48 @@
-import React, {useState} from "react";
-import {Column} from "../../reactTableMaker";
-import {setSortingFunctionType} from "../../dataAdapterHooks/sharedTypes";
+import React from "react";
+import {Column, SortableIcons} from "../../reactTableMaker";
+
 
 export type Props = {
     column: Column,
-    setSortingFunction: setSortingFunctionType
+    onSort(key: string, sortingFunction: ((a: any, b: any) => number) | undefined): void,
+    sortableIcons?: SortableIcons,
+    sorted: boolean,
+    reversed: boolean
 }
 
 function Th(props: Props) {
     const {column} = props;
     const className = column.columnClass || "";
-    const [reverse, setReverse] = useState(false);
+
+    const {sortableIcons} = props;
 
     let onClick: any = null;
+
     if(column.sortingFunction) {
         onClick = () => {
-            props.setSortingFunction(column.sortingFunction, reverse)
-            setReverse((value) => !value);
+            props.onSort(column.key, column.sortingFunction);
         }
     }
 
-    return <th className={className} onClick={onClick}>{column.label}</th>;
+    function RenderIcon() {
+        if(!sortableIcons || !column.sortingFunction) return null
+
+        let icon = null;
+
+        if(sortableIcons.sortable) icon = sortableIcons.sortable;
+
+        if(sortableIcons.sorted && props.sorted) icon = sortableIcons.sorted;
+
+        if(sortableIcons.reversed && props.sorted && props.reversed) icon = sortableIcons.reversed;
+
+        return icon;
+    }
+
+    return <th className={className} onClick={onClick}>
+        {(sortableIcons && sortableIcons.beforeTitle) && <RenderIcon/>}
+        {column.label}
+        {(sortableIcons && !sortableIcons.beforeTitle) && <RenderIcon/>}
+    </th>;
 }
 
 export default Th;
